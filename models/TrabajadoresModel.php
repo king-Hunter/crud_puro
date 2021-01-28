@@ -9,7 +9,23 @@ class TrabajadoresModel extends BaseDeDatos
     {
         parent::__construct();
     }
-
+    
+    public function buscarTrabajadores($buscar){
+        $this->consulta("select 
+               e.id_empleado id,
+               concat(e.nombre,' ',e.paterno, ' ', e.materno) nombre,
+               e.correo correo,
+               e.nacimiento cumpleanios,
+               (
+                select group_concat(ct.tipo, ': ', te.telefono) from telefono_empleado te 
+                  inner join catalogo_telefono ct on ct.id_catalogo_telefono = te.id_catalogo_telefono
+                where te.id_empleado = e.id_empleado
+               ) telefono
+            from empleado e where e.nombre = '$buscar'");
+        $trabajadoresModel = $this->procesarResultadoArray();
+        return $trabajadoresModel;
+    }
+    
     public function obtenerTrabajadores(){
         /*$trabajadoresModel = array(
             array('id'=> '5','nombre' => 'Enrique Corona Ricaño','correo' =>'enrique_cr1990@hotmail.com','telefono' => '246 123 58 69','cumpleanios' => '6 de abril'),

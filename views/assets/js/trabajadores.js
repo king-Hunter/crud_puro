@@ -47,13 +47,48 @@ $(document).ready(function(){
             $('#msg_validacion_form').fadeIn();
         }
     });
-
+    
+    $(document).on('click','#buscar_trabajador',function(){
+        //validar el formulario
+        var buscar = document.getElementById("input_buscar").value;
+        console.log(buscar);
+        $('#contenedor_mensajes').fadeOut();
+        console.log("entro aqui");
+        if($('#input_buscar').val() != ''){
+            Trabajadores.buscar_empleado(buscar);
+        }else{
+            //mostrar mensajes hacia el usuario
+            $('#contenedor_mensajes').html('<h6 style="padding-top: 10px;">Tu busqueda no es valida</h6> ')
+            $('#contenedor_mensajes').fadeIn();
+            setTimeout(function(){ $('#contenedor_mensajes').fadeOut(); }, 1000);
+        }
+    });
+    
     Trabajadores.buscar_tablero();
 
 });
 
 var Trabajadores = {
 
+    buscar_empleado : function(buscar){
+        $.ajax({
+            type : 'POST', //tipo de peticion
+            url : 'routes/buscar_empleado.php', //direccion de la peticion url
+            data : {
+                buscar : buscar
+            }, //paramentros a enviar por la peticion
+            dataType : 'html',
+            success : function(respuestaAjax){
+                $('#contenedor_trabajadores').html(respuestaAjax);
+                console.log(respuestaAjax);
+            },
+            error : function(err){
+                alert('hubo un error en la petición');
+                alert(err.status);
+            }
+        });
+    },
+    
     buscar_tablero : function(){
         $('#contenedor_trabajadores').html('<div class="spinner-border" role="status">\n' +
             '  <span class="visually-hidden">Loading...</span>\n' +

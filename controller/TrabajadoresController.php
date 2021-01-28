@@ -13,7 +13,13 @@ class TrabajadoresController{
         $this->trabajadoresModel = new TrabajadoresModel();
         $this->catTelModel = new CatTelefonoModel();
     }
-
+    
+    
+    public function buscarTrabajador($buscar){
+        $trabajadores = $this->trabajadoresModel->buscarTrabajadores($buscar);
+        include('../views/trabajadores/tablero.php');
+    }
+    
     public function tablero(){
         $trabajadores = $this->trabajadoresModel->obtenerTrabajadores();
         include('../views/trabajadores/tablero.php');
