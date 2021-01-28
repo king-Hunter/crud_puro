@@ -81,7 +81,7 @@ var Trabajadores = {
             dataType : 'html',
             success : function(respuestaAjax){
                 $('#contenedor_form_trabajadores').html(respuestaAjax);
-                $('#form_trabajador').page('show');
+                $('#form_trabajador').modal('show');
             },
             error : function(err){
                 alert('hubo un error en la petición');
